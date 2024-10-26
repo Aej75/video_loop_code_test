@@ -548,7 +548,8 @@ mixin _$VideoLoopState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
@@ -559,7 +560,8 @@ mixin _$VideoLoopState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
@@ -570,7 +572,7 @@ mixin _$VideoLoopState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,
@@ -670,7 +672,8 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
@@ -684,7 +687,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
@@ -698,7 +702,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,
@@ -800,7 +804,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
@@ -814,7 +819,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
@@ -828,7 +834,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,
@@ -897,7 +903,7 @@ abstract class _$$InitializationSuccessImplCopyWith<$Res> {
           $Res Function(_$InitializationSuccessImpl) then) =
       __$$InitializationSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({VideoPlayerController? activeController});
+  $Res call({VideoPlayerController? activeController, String? fileName});
 }
 
 /// @nodoc
@@ -912,12 +918,17 @@ class __$$InitializationSuccessImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? activeController = freezed,
+    Object? fileName = freezed,
   }) {
     return _then(_$InitializationSuccessImpl(
       activeController: freezed == activeController
           ? _value.activeController
           : activeController // ignore: cast_nullable_to_non_nullable
               as VideoPlayerController?,
+      fileName: freezed == fileName
+          ? _value.fileName
+          : fileName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -925,14 +936,16 @@ class __$$InitializationSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitializationSuccessImpl implements _InitializationSuccess {
-  const _$InitializationSuccessImpl({this.activeController});
+  const _$InitializationSuccessImpl({this.activeController, this.fileName});
 
   @override
   final VideoPlayerController? activeController;
+  @override
+  final String? fileName;
 
   @override
   String toString() {
-    return 'VideoLoopState.initializationSuccess(activeController: $activeController)';
+    return 'VideoLoopState.initializationSuccess(activeController: $activeController, fileName: $fileName)';
   }
 
   @override
@@ -941,11 +954,13 @@ class _$InitializationSuccessImpl implements _InitializationSuccess {
         (other.runtimeType == runtimeType &&
             other is _$InitializationSuccessImpl &&
             (identical(other.activeController, activeController) ||
-                other.activeController == activeController));
+                other.activeController == activeController) &&
+            (identical(other.fileName, fileName) ||
+                other.fileName == fileName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activeController);
+  int get hashCode => Object.hash(runtimeType, activeController, fileName);
 
   @JsonKey(ignore: true)
   @override
@@ -959,13 +974,14 @@ class _$InitializationSuccessImpl implements _InitializationSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
     required TResult Function() disposeSuccess,
   }) {
-    return initializationSuccess(activeController);
+    return initializationSuccess(activeController, fileName);
   }
 
   @override
@@ -973,13 +989,14 @@ class _$InitializationSuccessImpl implements _InitializationSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
     TResult? Function()? disposeSuccess,
   }) {
-    return initializationSuccess?.call(activeController);
+    return initializationSuccess?.call(activeController, fileName);
   }
 
   @override
@@ -987,7 +1004,7 @@ class _$InitializationSuccessImpl implements _InitializationSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,
@@ -995,7 +1012,7 @@ class _$InitializationSuccessImpl implements _InitializationSuccess {
     required TResult orElse(),
   }) {
     if (initializationSuccess != null) {
-      return initializationSuccess(activeController);
+      return initializationSuccess(activeController, fileName);
     }
     return orElse();
   }
@@ -1047,10 +1064,11 @@ class _$InitializationSuccessImpl implements _InitializationSuccess {
 
 abstract class _InitializationSuccess implements VideoLoopState {
   const factory _InitializationSuccess(
-          {final VideoPlayerController? activeController}) =
-      _$InitializationSuccessImpl;
+      {final VideoPlayerController? activeController,
+      final String? fileName}) = _$InitializationSuccessImpl;
 
   VideoPlayerController? get activeController;
+  String? get fileName;
   @JsonKey(ignore: true)
   _$$InitializationSuccessImplCopyWith<_$InitializationSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1096,7 +1114,8 @@ class _$UpdateTimerSuccessImpl implements _UpdateTimerSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
@@ -1110,7 +1129,8 @@ class _$UpdateTimerSuccessImpl implements _UpdateTimerSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
@@ -1124,7 +1144,7 @@ class _$UpdateTimerSuccessImpl implements _UpdateTimerSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,
@@ -1251,7 +1271,8 @@ class _$FailImpl implements _Fail {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
@@ -1265,7 +1286,8 @@ class _$FailImpl implements _Fail {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
@@ -1279,7 +1301,7 @@ class _$FailImpl implements _Fail {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,
@@ -1386,7 +1408,8 @@ class _$DisposeSucessImpl implements _DisposeSucess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(VideoPlayerController? activeController)
+    required TResult Function(
+            VideoPlayerController? activeController, String? fileName)
         initializationSuccess,
     required TResult Function() updateTimerSuccess,
     required TResult Function(String message) fail,
@@ -1400,7 +1423,8 @@ class _$DisposeSucessImpl implements _DisposeSucess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(VideoPlayerController? activeController)?
+    TResult? Function(
+            VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult? Function()? updateTimerSuccess,
     TResult? Function(String message)? fail,
@@ -1414,7 +1438,7 @@ class _$DisposeSucessImpl implements _DisposeSucess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(VideoPlayerController? activeController)?
+    TResult Function(VideoPlayerController? activeController, String? fileName)?
         initializationSuccess,
     TResult Function()? updateTimerSuccess,
     TResult Function(String message)? fail,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:test/core/injection/injection.dart';
 import 'package:test/feature/video_loop/presentation/bloc/video_loop_bloc.dart';
 import 'package:test/feature/video_loop/presentation/loop_video_player.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      builder: EasyLoading.init(),
       theme: ThemeData(
         // This is the theme of your application.
         //

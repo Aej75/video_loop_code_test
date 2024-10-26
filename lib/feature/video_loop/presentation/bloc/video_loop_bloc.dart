@@ -13,57 +13,79 @@ part 'video_loop_state.dart';
 
 @injectable
 class VideoLoopBloc extends Bloc<VideoLoopEvent, VideoLoopState> {
-  List<VideoPlayerController> controllerList = [];
-  List<Map<VideoPlayerController, Duration>> pausedList = [];
+  List<Map<VideoPlayerController, String>> controllerList = [];
+  List<Map<Map<VideoPlayerController, String>, Duration>> pausedList = [];
   VideoPlayerController? activeController;
-  List<String> videoPath = [];
+  List<Map<String, String>> videoPath = [];
+
   Future<void> _disposeControllers() async {
     for (var controller in controllerList) {
-      await controller.dispose();
+      await controller.entries.first.key.dispose();
     }
     controllerList.clear();
     pausedList.clear();
+    videoPath.clear();
     activeController = null;
 
     emit(const _DisposeSucess());
   }
 
   Future<void> _initializeControllers() async {
+    emit(const _Loading());
+
     for (var path in videoPath) {
-      var controller = VideoPlayerController.file(File(path));
+      var controller = VideoPlayerController.file(File(path.entries.first.key));
       await controller.initialize();
-      controllerList.add(controller);
+      controllerList.add({controller: path.entries.first.value});
     }
     if (controllerList.isNotEmpty) {
-      activeController = controllerList[0]; // Set first video as active
+      activeController =
+          controllerList[0].entries.first.key; // Set first video as active
 
-      emit(VideoLoopState.initializationSuccess(
-          activeController: activeController));
+      emit(
+        _InitializationSuccess(
+            activeController: activeController,
+            fileName: controllerList[0].entries.first.value),
+      );
+
+      _startPlaying();
     } else {
       emit(const _Fail(message: 'Initialization failed'));
     }
   }
 
   Future<void> _pickAndSetVideos() async {
+    await _disposeControllers();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.video,
       allowMultiple: true,
     );
 
+//     final videoInfo = FlutterVideoInfo();
+
     if (result != null) {
-      videoPath = result.files.map((file) => file.path!).toList();
+      for (var file in result.files) {
+        // final fileName = await videoInfo.getVideoInfo(file.path!);
+
+        videoPath.add({file.path!: file.name});
+      }
+
       await _initializeControllers();
     } else {
-      emit(const _Fail(message: 'Action canceled!'));
+      emit(
+        const _Fail(message: 'Action canceled!'),
+      );
     }
   }
 
   Future<void> _startPlaying() async {
     for (var i = 0; i < controllerList.length; i++) {
-      activeController = controllerList[i];
+      activeController = controllerList[i].entries.first.key;
 
-      emit(VideoLoopState.initializationSuccess(
-          activeController: activeController));
+      final fileName = controllerList[i].entries.first.value;
+
+      emit(_InitializationSuccess(
+          activeController: activeController, fileName: fileName));
 
       activeController!.seekTo(Duration.zero);
 
@@ -76,7 +98,7 @@ class VideoLoopBloc extends Bloc<VideoLoopEvent, VideoLoopState> {
         await Future.delayed(Duration(seconds: pauseDuration));
 
         pausedList.add({
-          activeController!: activeController!.value.position
+          {activeController!: fileName}: activeController!.value.position
         }); //Adding timer for each paused video.
 
         log('Total length of paused list  = ${pausedList.length}');
@@ -85,6 +107,7 @@ class VideoLoopBloc extends Bloc<VideoLoopEvent, VideoLoopState> {
         await Future.delayed(
           activeController!.value.duration,
         );
+
         _resumePausedVideos();
       }
     }
@@ -93,10 +116,11 @@ class VideoLoopBloc extends Bloc<VideoLoopEvent, VideoLoopState> {
   Future<void> _resumePausedVideos() async {
     // Resume videos from where they were paused
     for (var paused in pausedList.reversed) {
-      activeController = paused.entries.first.key;
+      activeController = paused.entries.first.key.entries.first.key;
+      final fileName = paused.entries.first.key.entries.first.value;
 
-      emit(VideoLoopState.initializationSuccess(
-          activeController: activeController));
+      emit(_InitializationSuccess(
+          activeController: activeController, fileName: fileName));
       Duration pausedPosition = paused.entries.first.value;
 
       await activeController!.seekTo(pausedPosition);
@@ -114,8 +138,6 @@ class VideoLoopBloc extends Bloc<VideoLoopEvent, VideoLoopState> {
     on<VideoLoopEvent>((event, emit) async {
       await event.whenOrNull(
         initialize: () async {
-          emit(const _Loading());
-
           try {
             await _pickAndSetVideos();
           } catch (e) {

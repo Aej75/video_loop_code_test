@@ -1,0 +1,16 @@
+# Flutter build and cache directories
+build/
+.dart_tool/
+.fvm/
+
+# iOS and Android build directories
+ios/Pods/
+android/.gradle/
+android/app/build/
+
+# Editor settings
+.idea/
+.vscode/
+
+# Dependency lock file
+pubspec.lock
